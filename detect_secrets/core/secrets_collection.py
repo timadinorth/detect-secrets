@@ -39,10 +39,9 @@ class SecretsCollection:
         output = cls()
         for filename in baseline['results']:
             for item in baseline['results'][filename]:
-                if item['is_secret']:
-                    continue
-                secret = PotentialSecret.load_secret_from_dict({'filename': filename, **item})
-                output[filename].add(secret)
+                if item.get('is_secret') and item['is_secret'] == False:
+                    secret = PotentialSecret.load_secret_from_dict({'filename': filename, **item})
+                    output[filename].add(secret)
 
         return output
 
